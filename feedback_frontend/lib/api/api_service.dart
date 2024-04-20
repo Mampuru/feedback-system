@@ -24,5 +24,28 @@ class ApiService {
     }
   }
 
-// Implement other API calls for admin, user, superuser actions
+  Future<void> signUp(username,password,email) async {
+    final String apiUrl = 'https://your-api-url.com/user/signup'; // Replace with your API URL
+
+    final response = await http.post(
+      Uri.parse(apiUrl),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, String>{
+        'username': username,
+        'password': password,
+        'email': email,
+      }),
+    );
+
+    if (response.statusCode == 200) {
+      // Successfully signed up
+      print('Signed up successfully!');
+      Navigator.pop(context); // Navigate back to the previous screen
+    } else {
+      // Failed to sign up
+      print('Failed to sign up. Please try again.');
+    }
+  }
 }

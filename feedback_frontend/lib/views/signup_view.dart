@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../api/api_service.dart';
 
@@ -43,7 +44,19 @@ class _SignUpViewState extends State<SignUpView> {
             ),
             const SizedBox(height: 16.0),
             ElevatedButton(
-              onPressed: _apiService.signUp(),
+              onPressed: () async {
+                try {
+                  final response = await _apiService.signUp(_usernameController.text, _passwordController.text, _emailController.text);
+                  // Save token to shared preferences
+                  SharedPreferences prefs = await SharedPreferences.getInstance();
+                  prefs.setString('token', response['token']);
+                  // Navigate to respective dashboard
+                } catch (e) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('Login failed')),
+                  );
+                }
+              },
               child: const Text('Sign Up'),
             ),
           ],

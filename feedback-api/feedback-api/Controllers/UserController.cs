@@ -1,10 +1,14 @@
 ﻿using feedback_api.Data;
 using feedback_api.Models;
+using feedback_api.utils;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 
 namespace feedback_api.Controllers
 {
@@ -13,7 +17,7 @@ namespace feedback_api.Controllers
     public class UserController : ControllerBase
     {
         private readonly AppDbContext _context;
-
+       
         public UserController(AppDbContext context)
         {
             _context = context;
@@ -34,7 +38,8 @@ namespace feedback_api.Controllers
             if (existingUser == null) return Unauthorized();
 
             // Generate JWT token
-            var token = new JwtSecurityTokenHandler().WriteToken(/* Create JWT token */);
+            //var token = new JwtSecurityTokenHandler().WriteToken();
+            var token = new GenerateJwtToken(existingUser);
 
             return Ok(new { Token = token });
         }
@@ -88,6 +93,32 @@ namespace feedback_api.Controllers
         {
             var feedbacks = _context.Feedbacks.Include(f => f.User).ToList();
             return Ok(feedbacks);
+        }
+
+        private string GenerateJwtToken(User user)
+        {
+            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("your_secret_key_here")); // Replace with your secret key
+            var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+
+            var claims = new[]
+            {
+            new Claim(JwtRegisteredClaimNames.Sub, user.Username),
+            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+            new Claim(ClaimTypes.NameIdentifier, user.Id.ToString())
+        };
+
+            var token = new JwtSecurityToken(
+                issuer: "your_issuer_here", // Replace with your issuer
+                audience: "your_audience_here", // Replace with your audience
+                claims: claims,
+                expires: DateTime.Now.AddDays(1),
+                signingCredentials: credentials
+            );
+
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var encodedToken = tokenHandler.WriteToken(token);
+
+            return encodedToken;
         }
     }
 }

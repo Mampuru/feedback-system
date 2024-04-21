@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import '../models/user_model.dart';
 
 class ManageUsersView extends StatefulWidget {
+  const ManageUsersView({super.key});
+
   @override
   _ManageUsersViewState createState() => _ManageUsersViewState();
 }
@@ -18,10 +20,10 @@ class _ManageUsersViewState extends State<ManageUsersView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Manage Users'),
+        title: const Text('Manage Users'),
         actions: [
           IconButton(
-            icon: Icon(Icons.add),
+            icon: const Icon(Icons.add),
             onPressed: () {
               // Implement functionality to add new user
             },
@@ -29,15 +31,15 @@ class _ManageUsersViewState extends State<ManageUsersView> {
         ],
       ),
       body: Padding(
-        padding: EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            Text(
+            const Text(
               'Users',
               style: TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold),
             ),
-            SizedBox(height: 16.0),
+            const SizedBox(height: 16.0),
             Expanded(
               child: ListView.builder(
                 itemCount: users.length,
@@ -45,7 +47,7 @@ class _ManageUsersViewState extends State<ManageUsersView> {
                   return ListTile(
                     title: Text(users[index].email),
                     trailing: IconButton(
-                      icon: Icon(Icons.edit),
+                      icon: const Icon(Icons.edit),
                       onPressed: () {
                         // Implement edit functionality
                       },

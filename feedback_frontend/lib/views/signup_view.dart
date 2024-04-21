@@ -5,6 +5,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../api/api_service.dart';
 
 class SignUpView extends StatefulWidget {
+  const SignUpView({super.key});
+
   @override
   _SignUpViewState createState() => _SignUpViewState();
 }

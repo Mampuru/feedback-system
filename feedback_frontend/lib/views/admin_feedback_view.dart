@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import '../models/feedback_model.dart';
 
 class AdminFeedbackView extends StatefulWidget {
+  const AdminFeedbackView({super.key});
+
   @override
   _AdminFeedbackViewState createState() => _AdminFeedbackViewState();
 }
@@ -19,10 +21,10 @@ class _AdminFeedbackViewState extends State<AdminFeedbackView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Admin Feedback'),
+        title: const Text('Admin Feedback'),
         actions: [
           IconButton(
-            icon: Icon(Icons.logout),
+            icon: const Icon(Icons.logout),
             onPressed: () {
               // Implement logout functionality
             },
@@ -30,15 +32,15 @@ class _AdminFeedbackViewState extends State<AdminFeedbackView> {
         ],
       ),
       body: Padding(
-        padding: EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            Text(
+            const Text(
               'Feedback',
               style: TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold),
             ),
-            SizedBox(height: 16.0),
+            const SizedBox(height: 16.0),
             Expanded(
               child: ListView.builder(
                 itemCount: feedbacks.length,

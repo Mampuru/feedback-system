@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
 import '../api/api_service.dart';
 
 class FeedbackView extends StatefulWidget {

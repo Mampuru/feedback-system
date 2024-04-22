@@ -1,7 +1,6 @@
+import 'package:flutter/material.dart';
 import 'package:feedback_frontend/views/feedback_view.dart';
 import 'package:feedback_frontend/views/signup_view.dart';
-import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import '../api/api_service.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -19,49 +18,78 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Login')),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            TextField(
-              controller: _usernameController,
-              decoration: const InputDecoration(labelText: 'Username'),
+      appBar: AppBar(
+        title: const Text('Login'),
+      ),
+      body: Center(
+        child: SizedBox(
+          width: 400.0, // Fixed width for the Card
+          child: Card(
+            margin: const EdgeInsets.all(16.0),
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Text(
+                    'Login',
+                    style: Theme.of(context).textTheme.headlineSmall,
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 16.0),
+                  TextField(
+                    controller: _usernameController,
+                    decoration: const InputDecoration(
+                      labelText: 'Username',
+                      border: OutlineInputBorder(),
+                    ),
+                  ),
+                  const SizedBox(height: 16.0),
+                  TextField(
+                    controller: _passwordController,
+                    decoration: const InputDecoration(
+                      labelText: 'Password',
+                      border: OutlineInputBorder(),
+                    ),
+                    obscureText: true,
+                  ),
+                  const SizedBox(height: 16.0),
+                  ElevatedButton(
+                    onPressed: () async {
+                      // try {
+                      //   final response = await _apiService.loginUser(
+                      //     _usernameController.text,
+                      //     _passwordController.text,
+                      //   );
+                      //   // Save token to shared preferences
+                      //   SharedPreferences prefs = await SharedPreferences.getInstance();
+                      //   prefs.setString('token', response['token']);
+                      //   // Navigate to respective dashboard
+                      // } catch (e) {
+                      //   ScaffoldMessenger.of(context).showSnackBar(
+                      //     const SnackBar(content: Text('Login failed')),
+                      //   );
+                      // }
+                      Navigator.of(context).push(
+                        MaterialPageRoute(builder: (context) => const FeedbackView()),
+                      );
+                    },
+                    child: const Text('Login'),
+                  ),
+                  const SizedBox(height: 8.0),
+                  ElevatedButton(
+                    onPressed: () async {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(builder: (context) => const SignUpView()),
+                      );
+                    },
+                    child: const Text('Sign Up'),
+                  ),
+                ],
+              ),
             ),
-            TextField(
-              controller: _passwordController,
-              decoration: const InputDecoration(labelText: 'Password'),
-              obscureText: true,
-            ),
-            ElevatedButton(
-              onPressed: () async {
-                // try {
-                //   final response = await _apiService.loginUser(
-                //     _usernameController.text,
-                //     _passwordController.text,
-                //   );
-                //   // Save token to shared preferences
-                //   SharedPreferences prefs = await SharedPreferences.getInstance();
-                //   prefs.setString('token', response['token']);
-                //   // Navigate to respective dashboard
-                // } catch (e) {
-                //   ScaffoldMessenger.of(context).showSnackBar(
-                //     const SnackBar(content: Text('Login failed')),
-                //   );
-                // }
-                Navigator.of(context).push(MaterialPageRoute(builder: (context) => const FeedbackView()));
-
-              },
-              child: const Text('Login'),
-            ),
-            ElevatedButton(
-              onPressed: () async {
-                Navigator.of(context).push(MaterialPageRoute(builder: (context) => const SignUpView()));
-              },
-              child: const Text('Sign Up'),
-            ),
-          ],
+          ),
         ),
       ),
     );

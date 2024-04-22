@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../api/api_service.dart';
 
 class FeedbackView extends StatefulWidget {
   const FeedbackView({super.key});
@@ -9,11 +8,8 @@ class FeedbackView extends StatefulWidget {
 }
 
 class _FeedbackViewState extends State<FeedbackView> {
-  final ApiService _apiService = ApiService();
-  String _selectedIndicator = 'Success'; // Default selected indicator
+  final TextEditingController _indicatorController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
-
-  final List<String> _indicators = ['Success', 'Failure', 'Bad']; // Dropdown items
 
   @override
   Widget build(BuildContext context) {
@@ -21,59 +17,61 @@ class _FeedbackViewState extends State<FeedbackView> {
       appBar: AppBar(
         title: const Text('Feedback'),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
-            DropdownButtonFormField<String>(
-              value: _selectedIndicator,
-              items: _indicators.map((String value) {
-                return DropdownMenuItem<String>(
-                  value: value,
-                  child: Text(value),
-                );
-              }).toList(),
-              onChanged: (newValue) {
-                setState(() {
-                  _selectedIndicator = newValue!;
-                });
-              },
-              decoration: const InputDecoration(
-                labelText: 'Indicator',
-                border: OutlineInputBorder(),
-              ),
-            ),
-            const SizedBox(height: 16.0),
-            TextFormField(
-              controller: _descriptionController,
-              maxLines: 5,
-              decoration: const InputDecoration(
-                labelText: 'Description',
-                border: OutlineInputBorder(),
-              ),
-            ),
-            const SizedBox(height: 16.0),
-            ElevatedButton(
-              onPressed: () async {
-                try {
-                  final response = await _apiService.submitFeedback(
-                    _selectedIndicator,
-                    _descriptionController.text,
-                  );
-                  _descriptionController.clear();
-                  // Navigate to respective dashboard
-                } catch (e) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text('Feedback submitted successfully!'),
+      body: Center(
+        child: SizedBox(
+          width: 400.0, // Fixed width for the Card
+          child: Card(
+            margin: const EdgeInsets.all(16.0),
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: <Widget>[
+                  Text(
+                    'Feedback',
+                    style: Theme.of(context).textTheme.headlineSmall,
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 16.0),
+                  DropdownButtonFormField<String>(
+                    value: 'Success',
+                    items: ['Success', 'Neutral', 'Failure'].map((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(value),
+                      );
+                    }).toList(),
+                    onChanged: (value) {
+                      setState(() {
+                        _indicatorController.text = value!;
+                      });
+                    },
+                    decoration: const InputDecoration(
+                      labelText: 'Indicator',
+                      border: OutlineInputBorder(),
                     ),
-                  );
-                }
-              },
-              child: const Text('Submit'),
+                  ),
+                  const SizedBox(height: 12.0),
+                  TextField(
+                    controller: _descriptionController,
+                    maxLines: 5,
+                    decoration: const InputDecoration(
+                      labelText: 'Description',
+                      border: OutlineInputBorder(),
+                    ),
+                  ),
+                  const SizedBox(height: 16.0),
+                  ElevatedButton(
+                    onPressed: () {
+                      // Implement submit functionality
+                    },
+                    child: const Text('Submit'),
+                  ),
+                ],
+              ),
             ),
-          ],
+          ),
         ),
       ),
     );

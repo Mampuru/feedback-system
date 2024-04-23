@@ -1,20 +1,21 @@
+using DotNetEnv;
 using feedback_api.Data;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// Load environment variables from .env file
+DotNetEnv.Env.Load();
 
 // Add services to the container.
 builder.Services.AddControllers();
 
 // Add DbContext
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseSqlServer(Env.GetString("DB_CONNECTION_STRING")));
 
 // Add Swagger
 builder.Services.AddEndpointsApiExplorer();
@@ -34,9 +35,9 @@ builder.Services.AddAuthentication(options =>
         ValidateAudience = true,
         ValidateLifetime = true,
         ValidateIssuerSigningKey = true,
-        ValidIssuer = builder.Configuration["Jwt:Issuer"], // Update with your configuration key
-        ValidAudience = builder.Configuration["Jwt:Audience"], // Update with your configuration key
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:SecurityKey"])) // Update with your configuration key
+        ValidIssuer = Env.GetString("ISSUER"), // Update with your env key
+        ValidAudience = Env.GetString("AUDIENCE"), // Update with your env key
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Env.GetString("SECURITY_KEY"))) // Update with your env key
     };
 });
 

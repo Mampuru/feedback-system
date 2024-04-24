@@ -1,3 +1,4 @@
+import 'package:feedback_frontend/controllers/user_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:feedback_frontend/views/feedback_view.dart';
 import 'package:feedback_frontend/views/signup_view.dart';
@@ -11,7 +12,7 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final ApiService _apiService = ApiService();
+  final UserController _userController = UserController();
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 

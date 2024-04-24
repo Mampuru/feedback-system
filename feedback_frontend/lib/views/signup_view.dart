@@ -1,3 +1,4 @@
+import 'package:feedback_frontend/controllers/user_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -11,7 +12,7 @@ class SignUpView extends StatefulWidget {
 }
 
 class _SignUpViewState extends State<SignUpView> {
-  final ApiService _apiService = ApiService();
+  final UserController _userController = UserController();
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
@@ -68,7 +69,7 @@ class _SignUpViewState extends State<SignUpView> {
                   ElevatedButton(
                     onPressed: () async {
                       try {
-                        final response = await _apiService.signUp(
+                        final response = await _userController.signUp(
                           _usernameController.text,
                           _passwordController.text,
                           _emailController.text,

@@ -19,18 +19,19 @@ namespace feedback_api.Controllers
         }
 
         [HttpPost("signup")]
-        public async Task<IActionResult> SignUp(User user)
+        public async Task<IActionResult> SignUp(UserDTO user)
         {
-            user.PasswordHash = PasswordHandler.HashPassword(user.PasswordHash);
-            _context.Users.Add(user);
+            user.Password = PasswordHandler.HashPassword(user.Password);
+            User newUser = UserDTO.convertToUser(user);
+            _context.Users.Add(newUser);
             await _context.SaveChangesAsync();
-            return Ok(new { user.Id, user.Username, user.Role });
+            return Ok(new { user.Email, user.Username, user.Role });
         }
 
         [HttpPost("login")]
-        public IActionResult Login(User user)
+        public IActionResult Login(UserDTO user)
         {
-            var existingUser = _context.Users.SingleOrDefault(u => u.Username == user.Username && u.PasswordHash == user.PasswordHash);
+            var existingUser = _context.Users.SingleOrDefault(u => u.Email == user.Email && PasswordHandler.VerifyPassword(user.Password, u.PasswordHash));
             if (existingUser == null) return Unauthorized();
 
             // Generate JWT token
@@ -41,12 +42,13 @@ namespace feedback_api.Controllers
 
         [Authorize(Policy = "SuperUser")]
         [HttpPost("addAdmin")]
-        public async Task<IActionResult> AddAdmin(User admin)
+        public async Task<IActionResult> AddAdmin(UserDTO admin)
         {
             admin.Role = UserRole.Admin;
-            _context.Users.Add(admin);
+            User newAdmin = UserDTO.convertToUser(admin);
+            _context.Users.Add(newAdmin);
             await _context.SaveChangesAsync();
-            return Ok(new { admin.Id, admin.Username });
+            return Ok(new { admin.Email, admin.Username });
         }
 
         [Authorize(Policy = "SuperUser")]
@@ -63,13 +65,13 @@ namespace feedback_api.Controllers
 
         [Authorize(Policy = "SuperUser")]
         [HttpPut("updateAdmin/{adminId}")]
-        public async Task<IActionResult> UpdateAdmin(int adminId, User updatedAdmin)
+        public async Task<IActionResult> UpdateAdmin(int adminId, UserDTO updatedAdmin)
         {
             var admin = await _context.Users.FindAsync(adminId);
             if (admin == null || admin.Role != UserRole.Admin) return NotFound();
 
             admin.Username = updatedAdmin.Username;
-            admin.PasswordHash = updatedAdmin.PasswordHash;
+            admin.PasswordHash = updatedAdmin.Password;
             await _context.SaveChangesAsync();
             return Ok(new { admin.Id, admin.Username });
         }

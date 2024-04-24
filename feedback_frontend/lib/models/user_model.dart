@@ -3,6 +3,7 @@ class User {
   final String email;
   final String username;
   final String role;
+  final String password;
 
-  User(this.username, this.role, {required this.id, required this.email});
+  User(this.username, this.role, {required this.password,required this.id, required this.email});
 }

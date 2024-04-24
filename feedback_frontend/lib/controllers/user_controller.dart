@@ -1,7 +1,7 @@
 import 'dart:convert';
-import 'package:feedback_frontend/api/api_service.dart';
 import 'package:feedback_frontend/models/user_model.dart';
 import 'package:http/http.dart' as http;
+import '../api/api_config.dart';
 
 class UserController{
 
@@ -30,10 +30,11 @@ class UserController{
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
-      body: jsonEncode(<String, String>{
+      body: jsonEncode(<String, dynamic>{
         'username': username,
         'password': password,
         'email': email,
+        'role': 1
       }),
     );
     if (response.statusCode == 200) {

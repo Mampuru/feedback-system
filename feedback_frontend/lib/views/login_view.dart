@@ -2,7 +2,6 @@ import 'package:feedback_frontend/controllers/user_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:feedback_frontend/views/feedback_view.dart';
 import 'package:feedback_frontend/views/signup_view.dart';
-import '../api/api_service.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});

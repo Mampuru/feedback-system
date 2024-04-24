@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import '../api/api_service.dart';
+import '../api/api_config.dart';
 
 class FeedBackController {
 

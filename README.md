@@ -1,4 +1,4 @@
-# Feedback System
+# Feedback System [INCOMPLETE]
 
 [![My Skills](https://skillicons.dev/icons?i=dotnet,cs,flutter,dart)](https://skillicons.dev)
 
@@ -12,7 +12,7 @@ Simple cross-platform that allows a user to submit feedback
 
 ### Outstanding features
 - View feedback in real-time on the dashbaord.
-- Integrate webhooks to to notify admins everytime a feedbackis submit.
+- Integrate webhooks to notify admins everytime a feedbackis submit.
 - Add unit test
 
 ## Backend implementation Approach

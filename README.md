@@ -26,5 +26,25 @@ Simple cross-platform that allows a user to submit feedback
 
 ### Backend implementation Approach
 
+**Running backend** 
+
+1. Add the .env file to the root of the project
+2. Make sure that you have populated all fields in the .env 
+```
+ISSUER= " " 
+AUDIENCE= " "
+SECURITY_KEY= "" 
+DB_CONNECTION_STRING= " "
+```
+3. Run migrations to generate the database 
+*Package Manager Console*
+`add-migration [name]`
+`update-database`
+
+**OR**
+
+*Command Line*
+`dotnet ef migrations add [name]`
+`dotnet ef database update`
 
 ### Frontend implementation Approach

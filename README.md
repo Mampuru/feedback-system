@@ -40,13 +40,17 @@ DB_CONNECTION_STRING= " "
 3. Run migrations to generate the database
     
 *Package Manager Console*
+
 `add-migration [name]`
+
 `update-database`
 
 **OR**
 
 *Command Line*
+
 `dotnet ef migrations add [name]`
+
 `dotnet ef database update`
 
 ### Frontend implementation Approach

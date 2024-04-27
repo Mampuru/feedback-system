@@ -54,3 +54,9 @@ DB_CONNECTION_STRING= " "
 `dotnet ef database update`
 
 ### Frontend implementation Approach
+
+**Running front-end**
+
+On broswer : `flutter run -d [brower name]`
+
+On mobile device : `flutter run`
